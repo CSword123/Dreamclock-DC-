@@ -5,6 +5,6 @@
 
 // void processInput();
 //void update();
-void render(Sprite* spr);
+void render(Sprite* spr, const int COUNT);
 
 #endif

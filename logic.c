@@ -1,6 +1,5 @@
 
 #include "./include/logic.h"
-#include "./include/config.h"
 #include "./include/sprite.h"
 #include <raylib.h>
 
@@ -8,10 +7,11 @@
 // void processInput();
 // void update();
 
-void render(Sprite* spr)
+void render(Sprite* spr, const int COUNT)
 {
     BeginDrawing();
         ClearBackground(BLUE);
-        drawSprite(spr);
+        for (int i = 0; i < COUNT; i++)
+            drawSprite(&spr[i]);
     EndDrawing();
 }

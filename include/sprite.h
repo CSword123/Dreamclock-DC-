@@ -13,6 +13,6 @@ typedef struct Sprite
 void initSprite(Sprite* spr, const char* path);
 //void updateSprite();
 void drawSprite(Sprite* spr);
-void unloadSprite(Sprite* spr);
+void unloadSprites(Sprite* spr, const int COUNT);
 
 #endif

@@ -10,8 +10,8 @@ void initSprite(Sprite* spr, const char* path)
         fprintf(stderr, "ERROR: could not initialize texture from path %s\n", path);
         exit(EXIT_FAILURE);
     }
-    spr->position.x = (SCREEN_WIDTH - spr->texture.width) / 2;
-    spr->position.y = (SCREEN_HEIGHT - spr->texture.height) / 2;
+    spr->position.x = (float) (SCREEN_WIDTH - spr->texture.width) / 2;
+    spr->position.y = (float) (SCREEN_HEIGHT - spr->texture.height) / 2;
 }
 
 void drawSprite(Sprite* spr)
@@ -19,7 +19,8 @@ void drawSprite(Sprite* spr)
     DrawTexture(spr->texture, spr->position.x, spr->position.y, WHITE);
 }
 
-void unloadSprite(Sprite* spr)
+void unloadSprites(Sprite* spr, const int COUNT)
 {
-    UnloadTexture(spr->texture);
+    for (int i = 0; i < COUNT; i++)
+        UnloadTexture(spr[i].texture);
 }
