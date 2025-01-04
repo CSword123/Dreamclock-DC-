@@ -8,11 +8,15 @@ typedef struct Sprite
 {
     Texture2D texture;
     Vector2 position;
+    float rotation;
+    Vector2 origin;
 } Sprite;
 
-void initSprite(Sprite* spr, const char* path);
-//void updateSprite();
-void drawSprite(Sprite* spr);
-void unloadSprites(Sprite* spr, const int COUNT);
+void initClockFaceSprite(Sprite* faceSpr, const char* path);
+void initHandSprite(Sprite* handSpr, const char* path, float rot);
+void updateSprite();
+void drawFaceSprite(Sprite* faceSpr);
+void drawRotatedHandSprite(Sprite* handSpr);
+void unloadSprites(Sprite* faceSpr, Sprite* handSpr);
 
 #endif

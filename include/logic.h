@@ -4,7 +4,8 @@
 #include "./sprite.h"
 
 // void processInput();
-//void update();
-void render(Sprite* spr, const int COUNT);
+// void getCurrentTime();
+void update(Sprite* faceSpr, Sprite* handSpr);
+void render(Sprite* faceSpr, Sprite* handSpr);
 
 #endif
