@@ -2,10 +2,14 @@
 // Author: Hector E (BluesRedSun)
 // Date: 1-4-2025
 #include <raylib.h>
+#include <kos.h>
+#include <dc/sound/sound.h>
 #include "./include/config.h"
 #include "./include/logic.h"
 #include "./include/sprite.h"
 #include "./include/sound.h"
+
+KOS_INIT_FLAGS(INIT_DEFAULT);
 
 static Chime ringGetChime, ringLossChime;
 static Sprite clockFace = {0};
@@ -19,13 +23,11 @@ int main(void)
 {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Dreamclock");
     SetTargetFPS(TARGET_FPS);
-    // start raylibs audio device and context
-    InitAudioDevice();
+    // initialize the KOS sound system
+    snd_init();
     // load chime sounds into memory
     ringGetChime.fileName = "rd/sounds/ring_get.WAV";
     ringLossChime.fileName = "rd/sounds/ring_loss.WAV";
-    enableWave(&ringGetChime);
-    enableWave(&ringLossChime);
     enableSound(&ringGetChime);
     enableSound(&ringLossChime);
     // load sprite textures
@@ -43,9 +45,8 @@ int main(void)
     unloadSprites(&clockFace, clockHands);
     disableSound(&ringGetChime);
     disableSound(&ringLossChime);
-    disableWave(&ringGetChime);
-    disableWave(&ringLossChime);
-    CloseAudioDevice();
+    // shut the KOS sound system down
+    snd_shutdown();
     CloseWindow();          // close Opengl context and raylib window
     return 0;
 }
@@ -53,28 +54,37 @@ void processInput(void)
 {
     if(IsGamepadAvailable(0))
     {
+        // printf("Controller detected.\n");
         updateController();
     }
     updateKeyboard();
 }
 void update(void)
 {
+    static bool lastToggleState = false;
     static short lastHour = -1;
+    static short lastMinute = -1;
     short hours = 0, minutes = 0, seconds = 0;
     updateCurrentTime(&hours, &minutes, &seconds);
     // rotate hands in sync with system time and play chimes on the hour
-    if (isSoundToggleOn && hours != lastHour)
+    if (isSoundToggleOn && !lastToggleState)
     {
-        if (minutes != 0)
-        {
-            playChime(&ringGetChime);
-        }
-        else
+        playChime(&ringGetChime);
+    }
+    if (isSoundToggleOn)                     // if sound playback is enabled by user and current hours value gets updated
+    {
+        if (hours != lastHour)                                        // hour 00 is midnight, hour 12 is noon
         {
             playChime(&ringLossChime);
         }
-        lastHour = hours;
+        else if (minutes == 30 && lastMinute != minutes)
+        {
+            playChime(&ringGetChime);
+        }
     }
+    lastToggleState = isSoundToggleOn;
+    lastHour = hours;
+    lastMinute = minutes;
     clockHands[0].rotation = (float) hours * 30.0f;
     clockHands[1].rotation = (float) minutes * 6.0f;
     clockHands[2].rotation = (float) seconds * 6.0f;
@@ -88,5 +98,6 @@ void render(void)
         {
             drawRotatedHandSprite(&clockHands[i]);
         }
+       // DrawFPS(10, 10);
     EndDrawing();
 }

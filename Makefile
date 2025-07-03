@@ -1,7 +1,7 @@
 # dreamClock Makefile
 
 TARGET = dreamClock.elf
-OBJS = dreamClock.o logic.o sprite.o romdisk.o
+OBJS = dreamClock.o logic.o sprite.o sound.o romdisk.o
 KOS_ROMDISK_DIR = romdisk
 
 KOS_CFLAGS += -I${KOS_PORTS}/include/raylib

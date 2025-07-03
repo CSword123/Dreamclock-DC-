@@ -2,22 +2,35 @@
 #include "./include/logic.h"
 #include <raylib.h>
 #include <time.h>
+#include <stdio.h>
 
 bool isSoundToggleOn = false;
 
 void updateKeyboard(void)
 {
-    bool isSKeyPressed = false;
+    static bool isSKeyPressed = false;
     isSKeyPressed = IsKeyPressed(KEY_S);
     if (isSKeyPressed)
+    {
         isSoundToggleOn = !isSoundToggleOn;
+        printf("sound toggle = %s\n", isSoundToggleOn ? "true" : "false");
+    }
 }
 void updateController(void)
 {
-    bool isAButPressed = false;
+    static bool isAButPressed = false;
     isAButPressed = IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN);
-    if (isAButPressed && !isSoundToggleOn)
+    if (isAButPressed)
+    {
         isSoundToggleOn = !isSoundToggleOn;
+        printf("sound toggle = %s\n", isSoundToggleOn ? "true" : "false");
+    }
+}
+
+void updateDevices(void)
+{
+    updateController();
+    updateKeyboard();
 }
 
 void updateCurrentTime(short* hour, short* min, short* sec)
