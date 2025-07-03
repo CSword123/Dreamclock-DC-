@@ -8,5 +8,4 @@
 
 #define HAND_COUNT 3
 
-
 #endif

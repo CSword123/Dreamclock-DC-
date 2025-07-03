@@ -1,1 +1,8 @@
 dreamClock
+romdisk.img
+romdisk.o
+dreamClock.o
+logic.o
+sprite.o
+sound.o
+.clangd

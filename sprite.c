@@ -32,8 +32,8 @@ void initHandSprite(Sprite* handSpr, const char* path, float rot)
     handSpr->position.y = (float) SCREEN_HEIGHT / 2;
     handSpr->rotation = rot;
     // Calculate the origin to rotate around (pivot at the center of the texture)
-    handSpr->origin.x = handSpr->texture.width / 2;
-    handSpr->origin.y = handSpr->texture.height / 2;
+    handSpr->origin.x = (float) handSpr->texture.width / 2;
+    handSpr->origin.y = (float) handSpr->texture.height / 2;
 }
 void drawFaceSprite(Sprite* faceSpr)
 {
